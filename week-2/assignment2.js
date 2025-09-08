@@ -35,3 +35,29 @@ function cleanData(path, encoding = 'utf-8'){
 }
 
 cleanData('a.txt')
+
+function cleanFile(path, encoding = 'utf-8'){
+    return new Promise((resolve, reject)=>{
+        fs.readFile(path, encoding, (err, fileData)=>{
+            if(err){
+                return reject(err);
+            }
+            let data = fileData.trim();
+            fs.writeFile(path, data, (err)=>{
+                if(err){
+                    return reject(err);
+                }
+                console.log('File written successfully');
+                resolve();
+            })
+        })
+    })
+}
+
+cleanFile('a.txt')
+    .then(()=>{
+        console.log('File cleaned successfully');
+    })
+    .catch((err) => {
+        console.error('Error cleaning file:', err);
+    });
