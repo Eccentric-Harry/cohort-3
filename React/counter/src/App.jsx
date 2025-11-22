@@ -2,37 +2,30 @@ import React, {useEffect, useState} from "react";
 import './App.css'
 
 function App() {
-    const [isVisible, setIsVisible] = useState(true);
-    const [count, setCount] = useState(1);
-    useEffect(()=>{
-        let id= setInterval(()=>{
-            setIsVisible(c=>!c)
-        },5000)
-        return()=>{
-            clearInterval(id)
-        }
-    },[])
-
-    useEffect(()=>{
-        let id = setInterval(()=>{
-            setCount(count=>count+1)
-        },1000)
-
-        return()=>{
-            clearInterval(id)
-        }
-    },[])
 
     return (
         <div>
-            {isVisible && <Counter value={count}/>}
+            <Message/>
+            <br/>
+            <Message/>
+            <br/>
+            <Message/>
         </div>
     )
 }
 
-function Counter({value}){
-    return <div>
-        {value}
-    </div>
+function Message(){
+    const [isVisible, setIsVisible] = useState(false);
+
+    function toggleVisibility() {
+        setIsVisible(!isVisible);
+    }
+
+    return (
+        <div>
+            <button onClick={toggleVisibility}>Toggle Visibility</button>
+            {isVisible && <h3>This message can be Toggled</h3>}
+        </div>
+    )
 }
 export default App
