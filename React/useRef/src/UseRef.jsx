@@ -1,4 +1,4 @@
-// to understand the us of useRef();
+// to understand the use of useRef();
 
 import {useRef, useState} from "react";
 
