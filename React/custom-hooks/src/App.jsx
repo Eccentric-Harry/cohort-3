@@ -1,12 +1,31 @@
 
 import {useFetch} from "./hooks/useFetch.js";
+import {useState} from "react";
+import {usePrev} from "./hooks/usePrev.js";
 
-function App() {
+// function App() {
+//
+//     const {data}= useFetch("https://jsonplaceholder.typicode.com/posts/1");
+//     return(
+//         <div>
+//             {JSON.stringify(data)}
+//         </div>
+//     )
+// }
 
-    const {data}= useFetch("https://jsonplaceholder.typicode.com/posts/1");
+
+function App(){
+    const [count, setCount] = useState(0);
+
+    const prevRef = usePrev(count);
+
     return(
         <div>
-            {JSON.stringify(data)}
+            <div>{count}</div>
+            <button onClick={()=>{
+                setCount(count=>count + 1);
+            }} >Click Me</button>
+            <p>The previous value was {prevRef}</p>
         </div>
     )
 }
