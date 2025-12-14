@@ -1,6 +1,6 @@
 
 import {useFetch} from "./hooks/useFetch.js";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {usePrev} from "./hooks/usePrev.js";
 
 // function App() {
@@ -31,22 +31,57 @@ import {usePrev} from "./hooks/usePrev.js";
 // }
 
 
+// function App(){
+//
+//     let currentTimeout = useRef();
+//
+//     function searchBackend(){
+//         console.log("request sent to backend!");
+//     }
+//
+//     function debounceSearchBackend(){
+//         clearTimeout(currentTimeout.current);
+//         currentTimeout.current= setTimeout(searchBackend, 300);
+//     }
+//
+//     return(
+//         <div>
+//             <input placeholder={"Search for something..."} onChange={debounceSearchBackend} ></input>
+//         </div>
+//     )
+// }
+
+const useDebounce = (value, delay)=>{
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(()=>{
+        const handler = setTimeout(()=>{
+            setDebouncedValue(value);
+        },delay);
+
+        return () => {
+            clearTimeout(handler);
+        }
+    }, [delay, value]);
+
+    return debouncedValue;
+}
+
 function App(){
+    const [inputVal, setInputVal] = useState("");
+    const debouncedInput = useDebounce(inputVal, 200)
 
-    let currentTimeout = useRef();
-
-    function searchBackend(){
-        console.log("request sent to backend!");
+    function change(e){
+        setInputVal(e.target.value);
     }
 
-    function debounceSearchBackend(){
-        clearTimeout(currentTimeout.current);
-        currentTimeout.current= setTimeout(searchBackend, 300);
-    }
+    useEffect(()=>{
+        //fetch
+        console.log("backend request sent!");
+    },[debouncedInput]);
 
     return(
         <div>
-            <input placeholder={"Search for something..."} onChange={debounceSearchBackend} ></input>
+            <input placeholder={"Enter your search..."} onChange={change}></input>
         </div>
     )
 }
